@@ -1,0 +1,27 @@
+name: Publish Docker Image to Dockerhub
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  builds:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: action/checkout@v1
+
+      - name: Log in to Dockerhub
+        with: 
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build the docker Image
+        run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/flaskapp-githaction
+
+      - name: Docker push
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/flaskapp-githaction
+
+          echo "${{ secrets.DOCKERPW }}" | docker login -u "govindsingh277@gmail.com" --password-stdin
+           .
+          docker push govind17/docker101tutorial:v2
